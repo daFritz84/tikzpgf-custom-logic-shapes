@@ -1,0 +1,158 @@
+% Copyright 2008 by Mark Wibrow
+% Copyright 2018 by Stefan Seifried
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/generic/pgf/licenses/LICENSE for more details.
+
+\usepgflibrary{shapes.gates.logic}
+\usepgflibrary{shapes.gates.logic.IEC}
+
+\pgfkeys{/pgf/.cd,
+	halfsub gate IEC symbol/.initial={$HS$},
+}
+
+%%
+%% arrange variable inputs at gates top border
+%%
+\def\pgf@lib@sh@logicgate@IEC@inputtopanchor#1{%
+	\dimensions%
+	\centerpoint%
+	\advance\pgf@y\halfheight%
+	\expandafter\ifx\expandafter\pgf@lib@sh@itext\csname input-#1\endcsname%
+	\advance\pgf@y\invertedradius%
+	\advance\pgf@y\outerinvertedradius%
+	\fi%
+	%
+	\pgfutil@tempdima\halfwidth%
+	\multiply\pgfutil@tempdima2\relax%
+	\c@pgf@counta\numinputs%
+	\advance\c@pgf@counta1\relax%
+	\divide\pgfutil@tempdima\c@pgf@counta%
+	\multiply\pgfutil@tempdima#1\relax%
+	\advance\pgf@x-\halfwidth%
+	\advance\pgf@x\pgfutil@tempdima%
+}
+
+% Shape halfsub gate IEC
+%
+\pgfdeclareshape{halfsub gate IEC}{
+	\expandafter\pgfutil@g@addto@macro\csname pgf@sh@s@halfsub gate IEC\endcsname{%
+		\pgf@lib@sh@logicgate@parseinputs{2}% Maximum 1024 (!) inputs.
+		%
+		\pgfmathloop%
+		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@numinputs%
+		\else%
+		\pgfutil@ifundefined{pgf@anchor@halfsub gate IEC@input \pgfmathcounter}{%
+			\expandafter\xdef\csname pgf@anchor@halfsub gate IEC@input \pgfmathcounter\endcsname{%
+				\noexpand\pgf@lib@sh@logicgate@IEC@inputtopanchor{\pgfmathcounter}%
+			}%
+		}{}%
+		\repeatpgfmathloop%
+		\ifnum\pgf@lib@sh@logicgate@numinputs=2\relax%
+		\else%
+			\pgferror{An halfsub gate must have exactly two inputs}%
+		\fi%
+	}%
+	\savedmacro\numinputs{\let\numinputs\pgf@lib@sh@logicgate@numinputs}%
+	\saveddimen\invertedradius{%
+		\pgfmathsetlength\pgf@x{\pgfkeysvalueof{/pgf/logic gate inverted radius}}%
+	}%
+	\saveddimen\outerinvertedradius{%
+		\pgfmathsetlength\pgf@x{\pgfkeysvalueof{/pgf/logic gate inverted radius}}%
+		\advance\pgf@x.5\pgflinewidth%
+	}
+	\savedmacro\dimensions{%
+		\pgf@lib@sh@logicgates@dimensions@IEC{halfsub}%
+	}
+	\savedanchor\centerpoint{%
+		\pgf@x.5\wd\pgfnodeparttextbox%
+		\pgf@y.5\ht\pgfnodeparttextbox%
+		\advance\pgf@y-.5\dp\pgfnodeparttextbox%
+	}
+	\savedanchor\midpoint{%
+		\pgf@x.5\wd\pgfnodeparttextbox%
+		\pgfmathsetlength\pgf@y{+0.5ex}%
+	}
+	\savedanchor\basepoint{%
+		\pgf@x.5\wd\pgfnodeparttextbox%
+		\pgf@y0pt%
+	}
+
+	%%
+	%% standard anchors inherited from and gate
+	%%
+	\inheritanchor[from=and gate IEC]{center}
+	\inheritanchor[from=and gate IEC]{mid}
+	\inheritanchor[from=and gate IEC]{mid west}
+	\inheritanchor[from=and gate IEC]{mid east}
+	\inheritanchor[from=and gate IEC]{base}
+	\inheritanchor[from=and gate IEC]{base west}
+	\inheritanchor[from=and gate IEC]{base east}
+	\inheritanchor[from=and gate IEC]{north}
+	\inheritanchor[from=and gate IEC]{south}
+	\inheritanchor[from=and gate IEC]{east}
+	\inheritanchor[from=and gate IEC]{west}
+	\inheritanchor[from=and gate IEC]{north east}
+	\inheritanchor[from=and gate IEC]{north west}
+	\inheritanchor[from=and gate IEC]{south east}
+	\inheritanchor[from=and gate IEC]{south west}
+	
+	%%
+	%% define anchor for difference and carry
+	%%
+	\anchor{diff}{\dimensions\centerpoint\advance\pgf@y-\halfheight}
+	\anchor{carry}{\dimensions\centerpoint\advance\pgf@x-\halfwidth}
+	
+	%%
+	%% draw surrounding rectangle
+	%%
+	\backgroundpath{%
+		\dimensions%
+		\pgf@xc\halfwidth%
+		\pgf@yc\halfheight%
+		\pgfmathaddtolength\pgf@xc{-\pgfkeysvalueof{/pgf/outer xsep}}%
+		\pgfmathaddtolength\pgf@yc{-\pgfkeysvalueof{/pgf/outer xsep}}%
+		{%
+			\pgftransformshift{\centerpoint}%
+			\pgfpathrectangle{\pgfqpoint{-\pgf@xc}{-\pgf@yc}}%
+			{%
+				\pgf@xc2.0\pgf@xc%
+				\pgf@yc2.0\pgf@yc%
+				\pgfqpoint{\pgf@xc}{\pgf@yc}%
+			}%
+			\pgfpathclose%
+			%
+			% Draw inputs.
+			%
+			\pgf@yc+\halfheight%
+			\advance\pgf@yc+\invertedradius%
+			\pgf@xc\halfwidth%
+			\pgfutil@tempdima2.0\pgf@xc%
+			\c@pgf@counta\numinputs%
+			\advance\c@pgf@counta1\relax%
+			\divide\pgfutil@tempdima\c@pgf@counta%
+			\pgfmathloop%
+			\ifnum\pgfmathcounter>\numinputs%
+			\else%
+			\advance\pgf@xc-\pgfutil@tempdima%
+			\expandafter\ifx\expandafter\pgf@lib@sh@itext\csname input-\pgfmathcounter\endcsname%
+			{%
+				\pgfpathcircle{\pgfqpoint{\pgf@xc}{\pgf@yc}}{\invertedradius}%      
+			}%
+			\fi%
+			\repeatpgfmathloop%
+		}%
+	}
+	
+	%%
+	%% inherit foreground from and gate
+	%%
+	\foregroundpath{\pgf@lib@sh@logicgates@IEC@foregroundpath{halfsub}}
+	\inheritanchorborder[from=and gate IEC]
+}
+
+\endinput

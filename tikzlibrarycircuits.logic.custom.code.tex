@@ -1,0 +1,44 @@
+% Copyright 2008 by Till Tantau and others Wibrow
+% Copyright 2018 by Stefan Seifried
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/generic/pgf/licenses/LICENSE for more details.
+
+\usetikzlibrary{circuits.logic}
+\usepgflibrary{shapes.gates.logic.custom}
+
+
+%
+% When this lib is loaded, all symbols default to IEC
+%
+
+\tikzset{
+	circuit logic IEC/.style=
+	{
+		circuit logic,
+		set halfsub gate graphic = halfsub gate IEC graphic,
+		%
+		halfsub gate IEC symbol = {$\scriptstyle HS$},
+	},
+}
+
+
+
+\tikzset{
+	%%circuit logic IEC make graphic=halfsub gate IEC,
+	halfsub gate IEC graphic/.style={
+		circuit symbol open,
+		circuit symbol size=width 6 height 6,
+		shape=#1,
+		inner sep=.5ex
+	}
+}
+
+
+
+\endinput
+

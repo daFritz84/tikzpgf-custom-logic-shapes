@@ -1,0 +1,39 @@
+\documentclass[10pt,a4paper]{article}
+
+%%
+%% packages
+%%
+\usepackage{pgf,tikz}
+
+%%
+%% tikz libraries
+%%
+\usetikzlibrary{
+	circuits.logic.custom,
+	circuits.logic.IEC,
+}
+
+%%
+%% document
+%%
+\begin{document}
+	\begin{tikzpicture}[very thick, circuit logic]  
+	
+		%%
+		%% half subtractor
+		%%
+		\draw 
+			(0,0) node [halfsub gate IEC, minimum width=1.5cm, minimum height=1cm, inputs={nn}, draw]	(HALFSUB) {};
+		
+		\draw (HALFSUB.input 1) -- ([yshift=0.5cm]HALFSUB.input 1)  
+			node [anchor=south] {$a$};
+		\draw (HALFSUB.input 2) -- ([yshift=0.5cm]HALFSUB.input 2)
+			node [anchor=south] {$b$};
+		\draw (HALFSUB.diff) -- ([yshift=-0.5cm]HALFSUB.diff)
+			node [anchor=north] {$a - b$};
+		\draw (HALFSUB.carry) -- ([xshift=-0.5cm]HALFSUB.carry) 
+			node [anchor=east] {$carry$};
+		
+	
+	\end{tikzpicture}
+\end{document}
