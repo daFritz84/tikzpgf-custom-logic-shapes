@@ -13,6 +13,7 @@
 
 \pgfkeys{/pgf/.cd,
 	halfsub gate IEC symbol/.initial={$HS$},
+	mux gate IEC symbol/.initial={$MUX$},
 }
 
 %%
@@ -37,11 +38,54 @@
 	\advance\pgf@x\pgfutil@tempdima%
 }
 
+%%
+%% create input anchors for mux
+%%
+\def\pgf@lib@sh@logicgate@IEC@inputmuxanchor#1{%
+	\dimensions%
+	\centerpoint%
+	\advance\pgf@x-\halfwidth%
+	\expandafter\ifx\expandafter\pgf@lib@sh@itext\csname input-#1\endcsname%
+	\advance\pgf@x-\invertedradius%
+	\advance\pgf@x-\outerinvertedradius%
+	\fi%
+	%
+	\pgfutil@tempdima\halfheight%
+	%\multiply\pgfutil@tempdima2\relax%
+	\c@pgf@counta\numinputs%
+	\advance\c@pgf@counta1\relax%
+	\divide\pgfutil@tempdima\c@pgf@counta%
+	\multiply\pgfutil@tempdima#1\relax%
+	%\advance\pgf@y\halfheight%
+	\advance\pgf@y-\pgfutil@tempdima%
+}
+
+%%
+%% create select anchors for mux
+%%
+\def\pgf@lib@sh@logicgate@IEC@selectmuxanchor#1{%
+	\dimensions%
+	\centerpoint%
+	\advance\pgf@x-\halfwidth%
+	\expandafter\ifx\expandafter\pgf@lib@sh@itext\csname select-#1\endcsname%
+	\advance\pgf@x-\invertedradius%
+	\advance\pgf@x-\outerinvertedradius%
+	\fi%
+	%
+	\pgfutil@tempdima\halfheight%
+	\c@pgf@counta\numinputs%
+	\advance\c@pgf@counta1\relax%
+	\divide\pgfutil@tempdima\c@pgf@counta%
+	\multiply\pgfutil@tempdima#1\relax%
+	\advance\pgf@y\halfheight%
+	\advance\pgf@y-\pgfutil@tempdima%
+}
+
 % Shape halfsub gate IEC
 %
 \pgfdeclareshape{halfsub gate IEC}{
 	\expandafter\pgfutil@g@addto@macro\csname pgf@sh@s@halfsub gate IEC\endcsname{%
-		\pgf@lib@sh@logicgate@parseinputs{2}% Maximum 1024 (!) inputs.
+		\pgf@lib@sh@logicgate@parseinputs{2}%
 		%
 		\pgfmathloop%
 		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@numinputs%
@@ -152,6 +196,136 @@
 	%% inherit foreground from and gate
 	%%
 	\foregroundpath{\pgf@lib@sh@logicgates@IEC@foregroundpath{halfsub}}
+	\inheritanchorborder[from=and gate IEC]
+}
+
+% Shape mux gate IEC
+%
+\pgfdeclareshape{mux gate IEC}{
+	\expandafter\pgfutil@g@addto@macro\csname pgf@sh@s@mux gate IEC\endcsname{%
+		\pgf@lib@sh@logicgate@parseinputs{1024}% Maximum 1024 (!) inputs.
+		%
+		\pgfmathloop%
+		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@numinputs%
+		\else%
+		\pgfutil@ifundefined{pgf@anchor@mux gate IEC@input \pgfmathcounter}{%
+			\expandafter\xdef\csname pgf@anchor@mux gate IEC@input \pgfmathcounter\endcsname{%
+				\noexpand\pgf@lib@sh@logicgate@IEC@inputmuxanchor{\pgfmathcounter}%
+			}%
+		}{}%
+		\repeatpgfmathloop%
+		%
+		\pgfmathparse{\pgf@lib@sh@logicgate@numinputs/2}%
+		\edef\pgf@lib@sh@logicgate@selinputs{\pgfmathresult}%
+		\pgfmathloop%
+		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@selinputs%
+		\else%
+		\pgfutil@ifundefined{pgf@anchor@mux gate IEC@select \pgfmathcounter}{%
+			\expandafter\xdef\csname pgf@anchor@mux gate IEC@select \pgfmathcounter\endcsname{%
+				\noexpand\pgf@lib@sh@logicgate@IEC@selectmuxanchor{\pgfmathcounter}%
+			}%
+		}{}%
+		\repeatpgfmathloop%
+		%
+		\pgfmathparse{Mod(\pgf@lib@sh@logicgate@numinputs,2)==0?1:0}
+		\ifnum\pgfmathresult=0\relax%
+		\pgferror{A mux gate must have mod 2 inputs}%
+		\fi%
+	}%
+	\savedmacro\numinputs{\let\numinputs\pgf@lib@sh@logicgate@numinputs}%
+	\saveddimen\invertedradius{%
+		\pgfmathsetlength\pgf@x{\pgfkeysvalueof{/pgf/logic gate inverted radius}}%
+	}%
+	\saveddimen\outerinvertedradius{%
+		\pgfmathsetlength\pgf@x{\pgfkeysvalueof{/pgf/logic gate inverted radius}}%
+		\advance\pgf@x.5\pgflinewidth%
+	}
+	\savedmacro\dimensions{%
+		\pgf@lib@sh@logicgates@dimensions@IEC{mux}%
+	}
+	\savedanchor\centerpoint{%
+		\pgf@x.5\wd\pgfnodeparttextbox%
+		\pgf@y.5\ht\pgfnodeparttextbox%
+		\advance\pgf@y-.5\dp\pgfnodeparttextbox%
+	}
+	\savedanchor\midpoint{%
+		\pgf@x.5\wd\pgfnodeparttextbox%
+		\pgfmathsetlength\pgf@y{+0.5ex}%
+	}
+	\savedanchor\basepoint{%
+		\pgf@x.5\wd\pgfnodeparttextbox%
+		\pgf@y0pt%
+	}
+	
+	%%
+	%% standard anchors inherited from and gate
+	%%
+	\inheritanchor[from=and gate IEC]{center}
+	\inheritanchor[from=and gate IEC]{mid}
+	\inheritanchor[from=and gate IEC]{mid west}
+	\inheritanchor[from=and gate IEC]{mid east}
+	\inheritanchor[from=and gate IEC]{base}
+	\inheritanchor[from=and gate IEC]{base west}
+	\inheritanchor[from=and gate IEC]{base east}
+	\inheritanchor[from=and gate IEC]{north}
+	\inheritanchor[from=and gate IEC]{south}
+	\inheritanchor[from=and gate IEC]{east}
+	\inheritanchor[from=and gate IEC]{west}
+	\inheritanchor[from=and gate IEC]{north east}
+	\inheritanchor[from=and gate IEC]{north west}
+	\inheritanchor[from=and gate IEC]{south east}
+	\inheritanchor[from=and gate IEC]{south west}
+	
+	%%
+	%% define anchor for output
+	%%
+	\anchor{output}{\dimensions\centerpoint\advance\pgf@x\halfwidth}
+	
+	%%
+	%% draw surrounding rectangle
+	%%
+	\backgroundpath{%
+		\dimensions%
+		\pgf@xc\halfwidth%
+		\pgf@yc\halfheight%
+		\pgfmathaddtolength\pgf@xc{-\pgfkeysvalueof{/pgf/outer xsep}}%
+		\pgfmathaddtolength\pgf@yc{-\pgfkeysvalueof{/pgf/outer xsep}}%
+		{%
+			\pgftransformshift{\centerpoint}%
+			\pgfpathrectangle{\pgfqpoint{-\pgf@xc}{-\pgf@yc}}%
+			{%
+				\pgf@xc2.0\pgf@xc%
+				\pgf@yc2.0\pgf@yc%
+				\pgfqpoint{\pgf@xc}{\pgf@yc}%
+			}%
+			\pgfpathclose%
+			%
+			% Draw inputs.
+			%
+			\pgf@xc-\halfwidth%
+			\advance\pgf@xc-\invertedradius%
+			\pgf@yc-\halfheight%
+			\pgfutil@tempdima1.0\pgf@yc%
+			\c@pgf@counta\numinputs%
+			\advance\c@pgf@counta1\relax%
+			\divide\pgfutil@tempdima\c@pgf@counta%
+			\pgfmathloop%
+			\ifnum\pgfmathcounter>\numinputs%
+			\else%
+			\advance\pgf@yc-\pgfutil@tempdima%
+			\expandafter\ifx\expandafter\pgf@lib@sh@itext\csname input-\pgfmathcounter\endcsname%
+			{%
+				\pgfpathcircle{\pgfqpoint{\pgf@xc}{\pgf@yc}}{\invertedradius}%      
+			}%
+			\fi%
+			\repeatpgfmathloop%
+		}%
+	}
+	
+	%%
+	%% inherit foreground from and gate
+	%%
+	\foregroundpath{\pgf@lib@sh@logicgates@IEC@foregroundpath{mux}}
 	\inheritanchorborder[from=and gate IEC]
 }
 
