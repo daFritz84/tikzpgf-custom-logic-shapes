@@ -22,6 +22,7 @@
 		circuit logic,
 		set halfsub gate graphic = halfsub gate IEC graphic,
 		set mux gate graphic = mux gate IEC graphic,
+		set rslatch gate graphic = rslatch gate IEC graphic,
 		%
 		halfsub gate IEC symbol = {$\scriptstyle HS$},
 		mux gate IEC symbol = {$\scriptstyle MUX$},
@@ -41,6 +42,12 @@
 	mux gate IEC graphic/.style={
 		circuit symbol open,
 		circuit symbol size=width 12 height 3,
+		shape=#1,
+		inner sep=.5ex
+	}
+	rslatch gate IEC graphic/.style={
+		circuit symbol open,
+		circuit symbol size=width 1, height 1,
 		shape=#1,
 		inner sep=.5ex
 	}

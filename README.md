@@ -20,6 +20,11 @@ A full working example of the library can be found in _example.tex_.
 
 * Half Subtractor
 * Multiplexer
+* RS-Latch
+
+## Acknowledgements
+
+* Martin Scharrer for his superb example at [TeXample.net](http://www.texample.net/tikz/examples/d-flip-flops-and-shift-register/)
 
 ## Additional Design Notes
 

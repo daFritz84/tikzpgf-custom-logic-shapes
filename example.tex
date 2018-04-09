@@ -24,7 +24,6 @@
 		%%
 		\draw 
 			(0,0) node [halfsub gate IEC, minimum width=1.5cm, minimum height=1cm, inputs={nn}, draw]	(HALFSUB) {};
-		
 		\draw (HALFSUB.input 1) -- ([yshift=0.5cm]HALFSUB.input 1)  
 			node [anchor=south] {$a$};
 		\draw (HALFSUB.input 2) -- ([yshift=0.5cm]HALFSUB.input 2)
@@ -46,6 +45,16 @@
 			\draw ([xshift=-0.5cm]MUX.select \a) node [anchor=east] {$s_{\a}$} -- (MUX.select \a);
 		\draw (MUX.output) -- ([xshift=0.5cm]MUX.output) node [anchor=west] {$o$};
 		
+		
+		%%
+		%% RS-Latch
+		%%
+		\draw
+			(8,0) node [rslatch, minimum width=1.5cm, minimum height=3cm, draw] (RSLATCH) {};
+		\draw (RSLATCH.R) -- ([xshift=-0.5cm]RSLATCH.R);
+		\draw (RSLATCH.S) -- ([xshift=-0.5cm]RSLATCH.S);
+		\draw (RSLATCH.Q) -- ([xshift=0.5cm]RSLATCH.Q);
+		\draw (RSLATCH.Qn) -- ([xshift=0.5cm]RSLATCH.Qn);
 	
 	\end{tikzpicture}
 \end{document}
