@@ -14,7 +14,7 @@
 \pgfkeys{/pgf/.cd,
 	halfsub gate IEC symbol/.initial={$HS$},
 	mux gate IEC symbol/.initial={$MUX$},
-	rslatch gate IEC symbol/.initial={},
+	rslatch symbol/.initial={},
 }
 
 %%
@@ -82,17 +82,17 @@
 	\advance\pgf@y-\pgfutil@tempdima%
 }
 
-% Shape halfsub gate IEC
+% Shape halfsub
 %
-\pgfdeclareshape{halfsub gate IEC}{
-	\expandafter\pgfutil@g@addto@macro\csname pgf@sh@s@halfsub gate IEC\endcsname{%
+\pgfdeclareshape{halfsub}{
+	\expandafter\pgfutil@g@addto@macro\csname pgf@sh@s@halfsub\endcsname{%
 		\pgf@lib@sh@logicgate@parseinputs{2}%
 		%
 		\pgfmathloop%
 		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@numinputs%
 		\else%
-		\pgfutil@ifundefined{pgf@anchor@halfsub gate IEC@input \pgfmathcounter}{%
-			\expandafter\xdef\csname pgf@anchor@halfsub gate IEC@input \pgfmathcounter\endcsname{%
+		\pgfutil@ifundefined{pgf@anchor@halfsub@input \pgfmathcounter}{%
+			\expandafter\xdef\csname pgf@anchor@halfsub@input \pgfmathcounter\endcsname{%
 				\noexpand\pgf@lib@sh@logicgate@IEC@inputtopanchor{\pgfmathcounter}%
 			}%
 		}{}%
@@ -200,17 +200,17 @@
 	\inheritanchorborder[from=and gate IEC]
 }
 
-% Shape mux gate IEC
+% Shape mux
 %
-\pgfdeclareshape{mux gate IEC}{
-	\expandafter\pgfutil@g@addto@macro\csname pgf@sh@s@mux gate IEC\endcsname{%
+\pgfdeclareshape{mux}{
+	\expandafter\pgfutil@g@addto@macro\csname pgf@sh@s@mux\endcsname{%
 		\pgf@lib@sh@logicgate@parseinputs{1024}% Maximum 1024 (!) inputs.
 		%
 		\pgfmathloop%
 		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@numinputs%
 		\else%
-		\pgfutil@ifundefined{pgf@anchor@mux gate IEC@input \pgfmathcounter}{%
-			\expandafter\xdef\csname pgf@anchor@mux gate IEC@input \pgfmathcounter\endcsname{%
+		\pgfutil@ifundefined{pgf@anchor@mux@input \pgfmathcounter}{%
+			\expandafter\xdef\csname pgf@anchor@mux@input \pgfmathcounter\endcsname{%
 				\noexpand\pgf@lib@sh@logicgate@IEC@inputmuxanchor{\pgfmathcounter}%
 			}%
 		}{}%
@@ -221,8 +221,8 @@
 		\pgfmathloop%
 		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@selinputs%
 		\else%
-		\pgfutil@ifundefined{pgf@anchor@mux gate IEC@select \pgfmathcounter}{%
-			\expandafter\xdef\csname pgf@anchor@mux gate IEC@select \pgfmathcounter\endcsname{%
+		\pgfutil@ifundefined{pgf@anchor@mux@select \pgfmathcounter}{%
+			\expandafter\xdef\csname pgf@anchor@mux@select \pgfmathcounter\endcsname{%
 				\noexpand\pgf@lib@sh@logicgate@IEC@selectmuxanchor{\pgfmathcounter}%
 			}%
 		}{}%
@@ -330,7 +330,7 @@
 	\inheritanchorborder[from=and gate IEC]
 }
 
-% Shape rslatch gate IEC
+% Shape rslatch
 % Inspired by the work of Martin Scharrer
 \pgfdeclareshape{rslatch}{
 	% The 'minimum width' and 'minimum height' keys, not the content, determine

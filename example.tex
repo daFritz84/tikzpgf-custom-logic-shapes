@@ -23,7 +23,7 @@
 		%% half subtractor
 		%%
 		\draw 
-			(0,0) node [halfsub gate IEC, minimum width=1.5cm, minimum height=1cm, inputs={nn}, draw]	(HALFSUB) {};
+			(0,0) node [halfsub, minimum width=1.5cm, minimum height=1cm, inputs={nn}, draw]	(HALFSUB) {};
 		\draw (HALFSUB.input 1) -- ([yshift=0.5cm]HALFSUB.input 1)  
 			node [anchor=south] {$a$};
 		\draw (HALFSUB.input 2) -- ([yshift=0.5cm]HALFSUB.input 2)
@@ -37,7 +37,7 @@
 		%% multiplexer
 		%%
 		\draw 
-			(4,0) node [mux gate IEC, minimum width=1.5cm, minimum height=3cm, inputs={nnnn}, draw] (MUX) {$4~to~1$};
+			(4,0) node [mux, minimum width=1.5cm, minimum height=3cm, inputs={nnnn}, draw] (MUX) {$4~to~1$};
 			
 		\foreach \a in {1,...,4}
 			\draw ([xshift=-0.5cm]MUX.input \a) node [anchor=east] {$i_{\a}$} -- (MUX.input \a);

@@ -20,12 +20,12 @@
 	circuit logic IEC/.style=
 	{
 		circuit logic,
-		set halfsub gate graphic = halfsub gate IEC graphic,
-		set mux gate graphic = mux gate IEC graphic,
-		set rslatch gate graphic = rslatch gate IEC graphic,
+		set halfsub graphic = halfsub graphic,
+		set mux graphic = mux graphic,
+		set rslatch graphic = rslatch graphic,
 		%
-		halfsub gate IEC symbol = {$\scriptstyle HS$},
-		mux gate IEC symbol = {$\scriptstyle MUX$},
+		halfsub symbol = {$\scriptstyle HS$},
+		mux symbol = {$\scriptstyle MUX$},
 	},
 }
 
@@ -33,19 +33,19 @@
 
 \tikzset{
 	%%circuit logic IEC make graphic=halfsub gate IEC,
-	halfsub gate IEC graphic/.style={
+	halfsub graphic/.style={
 		circuit symbol open,
 		circuit symbol size=width 6 height 6,
 		shape=#1,
 		inner sep=.5ex
 	}
-	mux gate IEC graphic/.style={
+	mux graphic/.style={
 		circuit symbol open,
 		circuit symbol size=width 12 height 3,
 		shape=#1,
 		inner sep=.5ex
 	}
-	rslatch gate IEC graphic/.style={
+	rslatch graphic/.style={
 		circuit symbol open,
 		circuit symbol size=width 1, height 1,
 		shape=#1,
