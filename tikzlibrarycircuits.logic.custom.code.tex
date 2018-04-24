@@ -23,6 +23,7 @@
 		set halfsub graphic = halfsub graphic,
 		set mux graphic = mux graphic,
 		set rslatch graphic = rslatch graphic,
+		set dflipflop graphic = dflipflop graphic,
 		%
 		halfsub symbol = {$\scriptstyle HS$},
 		mux symbol = {$\scriptstyle MUX$},
@@ -46,6 +47,12 @@
 		inner sep=.5ex
 	}
 	rslatch graphic/.style={
+		circuit symbol open,
+		circuit symbol size=width 1, height 1,
+		shape=#1,
+		inner sep=.5ex
+	}
+	dflipflop graphic/.style={
 		circuit symbol open,
 		circuit symbol size=width 1, height 1,
 		shape=#1,

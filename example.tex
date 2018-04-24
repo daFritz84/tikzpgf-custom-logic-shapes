@@ -50,11 +50,21 @@
 		%% RS-Latch
 		%%
 		\draw
-			(8,0) node [rslatch, minimum width=1.5cm, minimum height=3cm, draw] (RSLATCH) {};
+			(8,0) node [rslatch, minimum width=1.5cm, minimum height=2.5cm, draw] (RSLATCH) {};
 		\draw (RSLATCH.R) -- ([xshift=-0.5cm]RSLATCH.R);
 		\draw (RSLATCH.S) -- ([xshift=-0.5cm]RSLATCH.S);
 		\draw (RSLATCH.Q) -- ([xshift=0.5cm]RSLATCH.Q);
 		\draw (RSLATCH.Qn) -- ([xshift=0.5cm]RSLATCH.Qn);
+		
+		%%
+		%% D-FlipFlop
+		%%
+		\draw
+			(12,0) node [dflipflop, minimum width=1.5cm, minimum height=2.5cm, draw] (DFF) {};
+		\draw (DFF.D) -- ([xshift=-0.5cm]DFF.D);
+		\draw (DFF.CLK) -- ([xshift=-0.5cm]DFF.CLK);
+		\draw (DFF.Q) -- ([xshift=0.5cm]DFF.Q);
+		\draw (DFF.Qn) -- ([xshift=0.5cm]DFF.Qn);
 	
 	\end{tikzpicture}
 \end{document}
