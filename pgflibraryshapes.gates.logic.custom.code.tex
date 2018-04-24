@@ -216,7 +216,7 @@
 		}{}%
 		\repeatpgfmathloop%
 		%
-		\pgfmathparse{\pgf@lib@sh@logicgate@numinputs/2}%
+		\pgfmathparse{log2(\pgf@lib@sh@logicgate@numinputs+1)}%
 		\edef\pgf@lib@sh@logicgate@selinputs{\pgfmathresult}%
 		\pgfmathloop%
 		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@selinputs%
