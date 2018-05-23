@@ -21,6 +21,7 @@ A full working example of the library can be found in _example.tex_.
 * Half Subtractor
 * Multiplexer
 * RS-Latch
+* D-FlipFlop
 
 ## Acknowledgements
 
@@ -33,7 +34,7 @@ This project tries to stay as close as possible to the workings of the original 
 The original _circuits.logic.IEC_ files can usually be found in your local TeX distribution folder at the following locations:
 
 * _[TeX distro root]/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/circuits/tikzlibrarycircuits.logic.IEC.code.tex_
-* _[TeX distro root]/texmf-dist/generic/tex/pgf/libraries/shapes/circuits/pgflibraryshapes.gates.logic.IEC.code.tex_
+* _[TeX distro root]/texmf-dist/tex/generic/pgf/libraries/shapes/circuits/pgflibraryshapes.gates.logic.IEC.code.tex_
 
 ## License
 
