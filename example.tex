@@ -45,12 +45,24 @@
 			\draw ([xshift=-0.5cm]MUX.select \a) node [anchor=east] {$s_{\a}$} -- (MUX.select \a);
 		\draw (MUX.output) -- ([xshift=0.5cm]MUX.output) node [anchor=west] {$o$};
 		
+		%%
+		%% demultiplexer
+		%%
+		\draw 
+		(8,0) node [dmux, minimum width=1.5cm, minimum height=3cm, inputs={n}, dmux ctrlinputs=2, draw] (DMUX) {$1~to~4$};
+		
+		\draw ([xshift=-0.5cm]DMUX.input 1) node [anchor=east] {$i$} -- (DMUX.input 1);
+		\foreach \a in {1,...,2}
+			\draw ([xshift=-0.5cm]DMUX.select \a) node [anchor=east] {$s_{\a}$} -- (DMUX.select \a);
+		\foreach \a in {1,...,4}
+			\draw ([xshift=+0.5cm]DMUX.output \a) node [anchor=west] {$o_{\a}$} -- (DMUX.output \a);
+		
 		
 		%%
 		%% RS-Latch
 		%%
 		\draw
-			(8,0) node [rslatch, minimum width=1.5cm, minimum height=2.5cm, draw] (RSLATCH) {};
+			(0,4) node [rslatch, minimum width=1.5cm, minimum height=2.5cm, draw] (RSLATCH) {};
 		\draw (RSLATCH.R) -- ([xshift=-0.5cm]RSLATCH.R);
 		\draw (RSLATCH.S) -- ([xshift=-0.5cm]RSLATCH.S);
 		\draw (RSLATCH.Q) -- ([xshift=0.5cm]RSLATCH.Q);
@@ -60,7 +72,7 @@
 		%% D-FlipFlop
 		%%
 		\draw
-			(12,0) node [dflipflop, minimum width=1.5cm, minimum height=2.5cm, draw] (DFF) {};
+			(4,4) node [dflipflop, minimum width=1.5cm, minimum height=2.5cm, draw] (DFF) {};
 		\draw (DFF.D) -- ([xshift=-0.5cm]DFF.D);
 		\draw (DFF.CLK) -- ([xshift=-0.5cm]DFF.CLK);
 		\draw (DFF.Q) -- ([xshift=0.5cm]DFF.Q);

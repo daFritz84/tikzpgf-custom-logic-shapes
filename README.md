@@ -20,6 +20,7 @@ A full working example of the library can be found in _example.tex_.
 
 * Half Subtractor
 * Multiplexer
+* Demultiplexer
 * RS-Latch
 * D-FlipFlop
 

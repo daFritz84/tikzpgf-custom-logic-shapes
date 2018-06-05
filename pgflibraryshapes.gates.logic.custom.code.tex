@@ -14,6 +14,8 @@
 \pgfkeys{/pgf/.cd,
 	halfsub gate IEC symbol/.initial={$HS$},
 	mux gate IEC symbol/.initial={$MUX$},
+	dmux gate IEC symbol/.initial={$DMUX$},
+	dmux ctrlinputs/.initial=2,
 	rslatch symbol/.initial={},
 	dflipflop symbol/.initial={},
 }
@@ -76,6 +78,49 @@
 	%
 	\pgfutil@tempdima\halfheight%
 	\c@pgf@counta\numinputs%
+	\advance\c@pgf@counta1\relax%
+	\divide\pgfutil@tempdima\c@pgf@counta%
+	\multiply\pgfutil@tempdima#1\relax%
+	\advance\pgf@y\halfheight%
+	\advance\pgf@y-\pgfutil@tempdima%
+}
+
+%%
+%% create select anchors for dmux
+%%
+\def\pgf@lib@sh@logicgate@IEC@selectdmuxanchor#1{%
+	\dimensions%
+	\centerpoint%
+	\advance\pgf@x-\halfwidth%
+	\expandafter\ifx\expandafter\pgf@lib@sh@itext\csname select-#1\endcsname%
+	\advance\pgf@x-\invertedradius%
+	\advance\pgf@x-\outerinvertedradius%
+	\fi%
+	%
+	\pgfutil@tempdima\halfheight%
+	\c@pgf@counta\ctrlinputs%
+	\advance\c@pgf@counta1\relax%
+	\divide\pgfutil@tempdima\c@pgf@counta%
+	\multiply\pgfutil@tempdima#1\relax%
+	\advance\pgf@y\halfheight%
+	\advance\pgf@y-\pgfutil@tempdima%
+}
+
+%%
+%% create output anchors for dmux
+%%
+\def\pgf@lib@sh@logicgate@IEC@outputanchor#1{%
+	\dimensions%
+	\centerpoint%
+	\advance\pgf@x+\halfwidth%
+	\expandafter\ifx\expandafter\pgf@lib@sh@itext\csname output-#1\endcsname%
+	\advance\pgf@x-\invertedradius%
+	\advance\pgf@x-\outerinvertedradius%
+	\fi%
+	%
+	\pgfutil@tempdima\halfheight%
+	\multiply\pgfutil@tempdima2\relax%
+	\c@pgf@counta\numoutputs%
 	\advance\c@pgf@counta1\relax%
 	\divide\pgfutil@tempdima\c@pgf@counta%
 	\multiply\pgfutil@tempdima#1\relax%
@@ -328,6 +373,148 @@
 	%% inherit foreground from and gate
 	%%
 	\foregroundpath{\pgf@lib@sh@logicgates@IEC@foregroundpath{mux}}
+	\inheritanchorborder[from=and gate IEC]
+}
+
+% Shape dmux
+%
+\pgfdeclareshape{dmux}{
+	\expandafter\pgfutil@g@addto@macro\csname pgf@sh@s@dmux\endcsname{%
+		\pgf@lib@sh@logicgate@parseinputs{1024}% Maximum 1024 (!) inputs.
+		%
+		% parse number of inputs
+		%
+		\pgfmathloop%
+		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@numinputs%
+		\else%
+		\pgfutil@ifundefined{pgf@anchor@dmux@input \pgfmathcounter}{%
+			\expandafter\xdef\csname pgf@anchor@dmux@input \pgfmathcounter\endcsname{%
+				\noexpand\pgf@lib@sh@logicgate@IEC@inputmuxanchor{\pgfmathcounter}%
+			}%
+		}{}%
+		\repeatpgfmathloop%
+		%
+		% get number of control/select inputs
+		%
+		\edef\pgf@lib@sh@logicgate@ctrlinputs{\pgfkeysvalueof{/pgf/dmux ctrlinputs}}%
+		\pgfmathloop%
+		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@ctrlinputs%
+		\else%
+		\pgfutil@ifundefined{pgf@anchor@dmux@select \pgfmathcounter}{%
+			%\message{adding anchor \pgfmathcounter ^^J}% debug msg
+			\expandafter\xdef\csname pgf@anchor@dmux@select \pgfmathcounter\endcsname{%
+				\noexpand\pgf@lib@sh@logicgate@IEC@selectdmuxanchor{\pgfmathcounter}%
+			}%
+		}{}%
+		\repeatpgfmathloop%
+		%
+		% create outputs based on number of ctrlinputs and inputs
+		%
+		\pgfmathparse{pow(\pgf@lib@sh@logicgate@ctrlinputs,2)*\pgf@lib@sh@logicgate@numinputs}%
+		\edef\pgf@lib@sh@logicgate@numoutputs{\pgfmathresult}%
+		%\message{number of outputs \pgf@lib@sh@logicgate@numoutputs ^^J}% debug msg
+		\pgfmathloop%
+		\ifnum\pgfmathcounter>\pgf@lib@sh@logicgate@numoutputs%
+		\else%
+		\pgfutil@ifundefined{pgf@anchor@dmux@output \pgfmathcounter}{%
+			\expandafter\xdef\csname pgf@anchor@dmux@output \pgfmathcounter\endcsname{%
+				\noexpand\pgf@lib@sh@logicgate@IEC@outputanchor{\pgfmathcounter}%
+			}%
+		}{}%
+		\repeatpgfmathloop%
+		
+	}%
+	\savedmacro\numinputs{\let\numinputs\pgf@lib@sh@logicgate@numinputs}%
+	\savedmacro\ctrlinputs{\let\ctrlinputs\pgf@lib@sh@logicgate@ctrlinputs}%
+	\savedmacro\numoutputs{\let\numoutputs\pgf@lib@sh@logicgate@numoutputs}%
+	\saveddimen\invertedradius{%
+		\pgfmathsetlength\pgf@x{\pgfkeysvalueof{/pgf/logic gate inverted radius}}%
+	}%
+	\saveddimen\outerinvertedradius{%
+		\pgfmathsetlength\pgf@x{\pgfkeysvalueof{/pgf/logic gate inverted radius}}%
+		\advance\pgf@x.5\pgflinewidth%
+	}
+	\savedmacro\dimensions{%
+		\pgf@lib@sh@logicgates@dimensions@IEC{dmux}%
+	}
+	\savedanchor\centerpoint{%
+		\pgf@x.5\wd\pgfnodeparttextbox%
+		\pgf@y.5\ht\pgfnodeparttextbox%
+		\advance\pgf@y-.5\dp\pgfnodeparttextbox%
+	}
+	\savedanchor\midpoint{%
+		\pgf@x.5\wd\pgfnodeparttextbox%
+		\pgfmathsetlength\pgf@y{+0.5ex}%
+	}
+	\savedanchor\basepoint{%
+		\pgf@x.5\wd\pgfnodeparttextbox%
+		\pgf@y0pt%
+	}
+	
+	%%
+	%% standard anchors inherited from and gate
+	%%
+	\inheritanchor[from=and gate IEC]{center}
+	\inheritanchor[from=and gate IEC]{mid}
+	\inheritanchor[from=and gate IEC]{mid west}
+	\inheritanchor[from=and gate IEC]{mid east}
+	\inheritanchor[from=and gate IEC]{base}
+	\inheritanchor[from=and gate IEC]{base west}
+	\inheritanchor[from=and gate IEC]{base east}
+	\inheritanchor[from=and gate IEC]{north}
+	\inheritanchor[from=and gate IEC]{south}
+	\inheritanchor[from=and gate IEC]{east}
+	\inheritanchor[from=and gate IEC]{west}
+	\inheritanchor[from=and gate IEC]{north east}
+	\inheritanchor[from=and gate IEC]{north west}
+	\inheritanchor[from=and gate IEC]{south east}
+	\inheritanchor[from=and gate IEC]{south west}
+		
+	%%
+	%% draw surrounding rectangle
+	%%
+	\backgroundpath{%
+		\dimensions%
+		\pgf@xc\halfwidth%
+		\pgf@yc\halfheight%
+		\pgfmathaddtolength\pgf@xc{-\pgfkeysvalueof{/pgf/outer xsep}}%
+		\pgfmathaddtolength\pgf@yc{-\pgfkeysvalueof{/pgf/outer xsep}}%
+		{%
+			\pgftransformshift{\centerpoint}%
+			\pgfpathrectangle{\pgfqpoint{-\pgf@xc}{-\pgf@yc}}%
+			{%
+				\pgf@xc2.0\pgf@xc%
+				\pgf@yc2.0\pgf@yc%
+				\pgfqpoint{\pgf@xc}{\pgf@yc}%
+			}%
+			\pgfpathclose%
+			%
+			% Draw inputs.
+			%
+			\pgf@xc-\halfwidth%
+			\advance\pgf@xc-\invertedradius%
+			\pgf@yc-\halfheight%
+			\pgfutil@tempdima1.0\pgf@yc%
+			\c@pgf@counta\numinputs%
+			\advance\c@pgf@counta1\relax%
+			\divide\pgfutil@tempdima\c@pgf@counta%
+			\pgfmathloop%
+			\ifnum\pgfmathcounter>\numinputs%
+			\else%
+			\advance\pgf@yc-\pgfutil@tempdima%
+			\expandafter\ifx\expandafter\pgf@lib@sh@itext\csname input-\pgfmathcounter\endcsname%
+			{%
+				\pgfpathcircle{\pgfqpoint{\pgf@xc}{\pgf@yc}}{\invertedradius}%      
+			}%
+			\fi%
+			\repeatpgfmathloop%
+		}%
+	}
+	
+	%%
+	%% inherit foreground from and gate
+	%%
+	\foregroundpath{\pgf@lib@sh@logicgates@IEC@foregroundpath{dmux}}
 	\inheritanchorborder[from=and gate IEC]
 }
 

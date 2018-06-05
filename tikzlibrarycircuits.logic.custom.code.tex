@@ -22,11 +22,13 @@
 		circuit logic,
 		set halfsub graphic = halfsub graphic,
 		set mux graphic = mux graphic,
+		set dmux graphic = dmux graphic,
 		set rslatch graphic = rslatch graphic,
 		set dflipflop graphic = dflipflop graphic,
 		%
 		halfsub symbol = {$\scriptstyle HS$},
 		mux symbol = {$\scriptstyle MUX$},
+		dmux symbol = {$\scriptstyle DMUX$}
 	},
 }
 
@@ -41,6 +43,12 @@
 		inner sep=.5ex
 	}
 	mux graphic/.style={
+		circuit symbol open,
+		circuit symbol size=width 12 height 3,
+		shape=#1,
+		inner sep=.5ex
+	}
+	dmux graphic/.style={
 		circuit symbol open,
 		circuit symbol size=width 12 height 3,
 		shape=#1,
