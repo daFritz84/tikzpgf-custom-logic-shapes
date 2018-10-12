@@ -24,14 +24,10 @@
 		%%
 		\draw 
 			(0,0) node [halfsub, minimum width=1.5cm, minimum height=1cm, inputs={nn}, draw]	(HALFSUB) {};
-		\draw (HALFSUB.input 1) -- ([yshift=0.5cm]HALFSUB.input 1)  
-			node [anchor=south] {$a$};
-		\draw (HALFSUB.input 2) -- ([yshift=0.5cm]HALFSUB.input 2)
-			node [anchor=south] {$b$};
-		\draw (HALFSUB.diff) -- ([yshift=-0.5cm]HALFSUB.diff)
-			node [anchor=north] {$a - b$};
-		\draw (HALFSUB.carry) -- ([xshift=-0.5cm]HALFSUB.carry) 
-			node [anchor=east] {$carry$};
+		\draw (HALFSUB.input 1) -- ++(0,0.5) node [anchor=south] {$a$};
+		\draw (HALFSUB.input 2) -- ++(0,0.5) node [anchor=south] {$b$};
+		\draw (HALFSUB.diff) -- ++(0,-0.5) node [anchor=north] {$a - b$};
+		\draw (HALFSUB.carry) -- ++(-0.5,0)	node [anchor=east] {$carry$};
 			
 		%%
 		%% multiplexer
@@ -40,10 +36,10 @@
 			(4,0) node [mux, minimum width=1.5cm, minimum height=3cm, inputs={nnnn}, draw] (MUX) {$4~to~1$};
 			
 		\foreach \a in {1,...,4}
-			\draw ([xshift=-0.5cm]MUX.input \a) node [anchor=east] {$i_{\a}$} -- (MUX.input \a);
+			\draw (MUX.input \a) -- ++(-0.5,0) node [anchor=east] {$i_{\a}$};
 		\foreach \a in {1,...,2}
-			\draw ([xshift=-0.5cm]MUX.select \a) node [anchor=east] {$s_{\a}$} -- (MUX.select \a);
-		\draw (MUX.output) -- ([xshift=0.5cm]MUX.output) node [anchor=west] {$o$};
+			\draw (MUX.select \a) -- ++(-0.5,0) node [anchor=east] {$s_{\a}$};
+		\draw (MUX.output) -- ++(0.5,0) node [anchor=west] {$o$};
 		
 		%%
 		%% demultiplexer
@@ -53,9 +49,9 @@
 		
 		\draw ([xshift=-0.5cm]DMUX.input 1) node [anchor=east] {$i$} -- (DMUX.input 1);
 		\foreach \a in {1,...,2}
-			\draw ([xshift=-0.5cm]DMUX.select \a) node [anchor=east] {$s_{\a}$} -- (DMUX.select \a);
+			\draw (DMUX.select \a) -- ++(-0.5,0) node [anchor=east] {$s_{\a}$};
 		\foreach \a in {1,...,4}
-			\draw ([xshift=+0.5cm]DMUX.output \a) node [anchor=west] {$o_{\a}$} -- (DMUX.output \a);
+			\draw (DMUX.output \a) -- ++(0.5,0) node [anchor=west] {$o_{\a}$};
 		
 		
 		%%
@@ -63,20 +59,31 @@
 		%%
 		\draw
 			(0,4) node [rslatch, minimum width=1.5cm, minimum height=2.5cm, draw] (RSLATCH) {};
-		\draw (RSLATCH.R) -- ([xshift=-0.5cm]RSLATCH.R);
-		\draw (RSLATCH.S) -- ([xshift=-0.5cm]RSLATCH.S);
-		\draw (RSLATCH.Q) -- ([xshift=0.5cm]RSLATCH.Q);
-		\draw (RSLATCH.Qn) -- ([xshift=0.5cm]RSLATCH.Qn);
+		\draw (RSLATCH.R) -- ++(-0.5,0);
+		\draw (RSLATCH.S) -- ++(-0.5,0);
+		\draw (RSLATCH.Q) -- ++(0.5,0);
+		\draw (RSLATCH.Qn) -- ++(0.5,0);
 		
 		%%
 		%% D-FlipFlop
 		%%
 		\draw
 			(4,4) node [dflipflop, minimum width=1.5cm, minimum height=2.5cm, draw] (DFF) {};
-		\draw (DFF.D) -- ([xshift=-0.5cm]DFF.D);
-		\draw (DFF.CLK) -- ([xshift=-0.5cm]DFF.CLK);
-		\draw (DFF.Q) -- ([xshift=0.5cm]DFF.Q);
-		\draw (DFF.Qn) -- ([xshift=0.5cm]DFF.Qn);
+		\draw (DFF.D) -- ++(-0.5,0);
+		\draw (DFF.CLK) -- ++(-0.5,0);
+		\draw (DFF.Q) -- ++(0.5,0);
+		\draw (DFF.Qn) -- ++(0.5,0);
+		
+		%%
+		%% JK-FlipFlop
+		%%
+		\draw
+		(8,4) node [jkflipflop, minimum width=1.5cm, minimum height=2.5cm, draw] (JKFF) {};
+		\draw (JKFF.J) -- ++(-0.5,0);
+		\draw (JKFF.CLK) -- ++(-0.5,0);
+		\draw (JKFF.K) -- ++(-0.5,0);
+		\draw (JKFF.Q) -- ++(0.5,0);
+		\draw (JKFF.Qn) -- ++(0.5,0);
 	
 	\end{tikzpicture}
 \end{document}
