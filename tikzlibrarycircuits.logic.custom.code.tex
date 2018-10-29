@@ -21,10 +21,12 @@
 	{
 		circuit logic,
 		set halfsub graphic = halfsub graphic,
+		set halfadd graphic = halfsub graphic,
 		set mux graphic = mux graphic,
 		set dmux graphic = dmux graphic,
 		set rslatch graphic = rslatch graphic,
 		set dflipflop graphic = dflipflop graphic,
+		set rom graphic = rom graphic,
 		%
 		halfsub symbol = {$\scriptstyle HS$},
 		mux symbol = {$\scriptstyle MUX$},
@@ -37,6 +39,12 @@
 \tikzset{
 	%%circuit logic IEC make graphic=halfsub gate IEC,
 	halfsub graphic/.style={
+		circuit symbol open,
+		circuit symbol size=width 6 height 6,
+		shape=#1,
+		inner sep=.5ex
+	}
+	halfadd graphic/.style={
 		circuit symbol open,
 		circuit symbol size=width 6 height 6,
 		shape=#1,
@@ -67,6 +75,12 @@
 		inner sep=.5ex
 	}
 	jkflipflop graphic/.style={
+		circuit symbol open,
+		circuit symbol size=width 1, height 1,
+		shape=#1,
+		inner sep=.5ex
+	}
+	rom graphic/.style={
 		circuit symbol open,
 		circuit symbol size=width 1, height 1,
 		shape=#1,

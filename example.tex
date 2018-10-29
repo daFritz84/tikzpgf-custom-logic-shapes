@@ -84,6 +84,16 @@
 		\draw (JKFF.K) -- ++(-0.5,0);
 		\draw (JKFF.Q) -- ++(0.5,0);
 		\draw (JKFF.Qn) -- ++(0.5,0);
+		
+		%%
+		%%
+		%%
+		\draw 
+		(0,8) node [halfadd, minimum width=1.5cm, minimum height=1cm, inputs={nn}, draw]	(HALFADD) {};
+		\draw (HALFADD.input 1) -- ++(0,0.5) node [anchor=south] {$a$};
+		\draw (HALFADD.input 2) -- ++(0,0.5) node [anchor=south] {$b$};
+		\draw (HALFADD.sum) -- ++(0,-0.5) node [anchor=north] {$a + b$};
+		\draw (HALFADD.carry) -- ++(-0.5,0)	node [anchor=east] {$carry$};
 	
 	\end{tikzpicture}
 \end{document}
